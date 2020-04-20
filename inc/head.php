@@ -1,3 +1,14 @@
+<?php session_start();
+if(empty($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+    $name = '';
+}
+if(isset($_GET['add_to_cart'])) {
+    $nb = $_GET['add_to_cart'];
+    $name = $catalog[$nb]['name'];
+    $_SESSION['cart'][] = ['cookieName' => $name];
+    header('Location: index.php');
+}?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,6 +59,14 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div class="container-fluid text-right">
-        <strong>Hello Wilder !</strong>
+        <?php
+            if (isset($_SESSION['name'])) : ?>
+                <strong>Hello <?=$_SESSION['name']?></strong>
+                <a href="/logout.php" class="btn btn-danger navbar-btn">Logout</a>
+            <?php endif;
+
+            if (!isset($_SESSION['name'])) : ?>
+                <a href="/login.php" class="btn btn-success navbar-btn">Login</a>'
+            <?php endif; ?>
     </div>
 </header>
